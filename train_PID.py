@@ -1,11 +1,11 @@
 import brickpi
 import time
 
+#setup
 interface=brickpi.Interface()
 interface.initialize()
 
 motors = [0,1]
-speed = 6.0
 
 interface.motorEnable(motors[0])
 interface.motorEnable(motors[1])
@@ -24,11 +24,18 @@ motorParams.pidParameters.k_d = 0.0
 interface.setMotorAngleControllerParameters(motors[0],motorParams)
 interface.setMotorAngleControllerParameters(motors[1],motorParams)
 
-interface.setMotorRotationSpeedReferences(motors,[speed,speed])
-
-print "Press Ctrl+C to exit"
 while True:
-	time.sleep(1)
+	angle = float(input("Enter a angle to rotate (in radians): "))
+
+	interface.increaseMotorAngleReferences(motors,[angle,angle])
+
+	while not interface.motorAngleReferencesReached(motors) :
+		motorAngles = interface.getMotorAngles(motors)
+		if motorAngles :
+			print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
+		time.sleep(0.1)
+
+	print "Destination reached!"
 	
 
 interface.terminate()
