@@ -2,7 +2,7 @@
 
 import csv
 
-from scipy.optimize import curve_fit
+#from scipy.optimize import curve_fit
 from os import listdir
 from os.path import isfile, join
 import matplotlib.pyplot as plt
