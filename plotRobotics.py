@@ -3,18 +3,27 @@
 import csv
 
 #from scipy.optimize import curve_fit
-from os import listdir
+from os import listdir, mkdir
 from os.path import isfile, join
+import sys
 import matplotlib.pyplot as plt
 import numpy as np
+from errno import EEXIST
 
 # create the function we want to fit
 def my_sin(x, freq, amplitude, phase, offset):
         return np.sin(x * freq + phase) * amplitude + offset
 
-path = "../logsF2/"
+
+if not len(sys.argv) == 2:
+    print "path argument required"
+    exit();
+    
+path = sys.argv[1]
 
 onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
+
+errorscale = 20
 
 try:
     for log in onlyfiles:
@@ -43,8 +52,8 @@ try:
                 rightMin = rightRef[0]
                 rightRef[0] = 0
                 rightReal[0] = 0
-            leftErr.append((leftReal[count]-leftRef[count])*10)
-            rightErr.append((rightReal[count]-rightRef[count]) * 10)
+            leftErr.append((leftReal[count]-leftRef[count])*errorscale)
+            rightErr.append((rightReal[count]-rightRef[count]) * errorscale)
             if count > 10:
                 if leftRef[count] == leftRef[count-5] and rightRef[count] == rightRef[count-5]:
                     break;
@@ -64,12 +73,14 @@ try:
 #        # now do the fit
 #        fit = curve_fit(my_sin, t, leftErr, p0=p0)
 #        data_fit = my_sin(t, *fit[0])
+ 
+        ymax = 60
 
         plt.clf()
         plt.plot(time, leftRef, 'b',  label="left reference")
         plt.plot(time, leftReal, 'k', label="left real")    
         plt.plot(time, leftErr, 'k', label="left error")    
-        plt.axis([time[0], time[count-1], -5, 21])    
+        plt.axis([time[0], time[count-1], -5, ymax])    
         plt.axhline(0, color='black')
         plt.axhline(min(leftErr), color='green')
         plt.axhline(max(leftErr), color='green')
@@ -77,14 +88,21 @@ try:
         plt.title(join("left ",log))
         plt.legend(loc=7)
         mng = plt.get_current_fig_manager()
-        mng.resize(*mng.window.maxsize())
-        
-        plt.savefig(join(path,"log","left" + log[:-4] + ".png"))
+#        mng.resize(*mng.window.maxsize())
+
+
+        graphdirname = "graphs"
+        try:
+            mkdir(join(path, graphdirname))
+        except OSError as e:
+            if e.errno != EEXIST:
+                raise
+        plt.savefig(join(path,graphdirname,"left" + log[:-4] + ".png"))
         plt.clf()
         plt.plot(time, rightRef, 'g',  label="right reference")
         plt.plot(time, rightReal, 'c', label="right real")     
         plt.plot(time, rightErr, 'k', label="right error")    
-        plt.axis([time[0], time[count-1], -5, 21])    
+        plt.axis([time[0], time[count-1], -5, ymax])    
         plt.axhline(0, color='black')
         plt.title(join("right ",log))
         plt.legend(loc=7)
@@ -92,9 +110,10 @@ try:
         plt.axhline(max(rightErr), color='green')
         plt.axhline(np.mean(rightErr), color='green')
         mng = plt.get_current_fig_manager()
-        mng.resize(*mng.window.maxsize())
-        plt.savefig(join(path,"log","right" + log[:-4] + ".png"))
-except IOError:
+        #mng.resize(*mng.window.maxsize())
+        plt.savefig(join(path,graphdirname,"right" + log[:-4] + ".png"))
+except IOError as e:
     print "IO"
+    print e
 
 
