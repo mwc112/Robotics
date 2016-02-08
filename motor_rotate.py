@@ -51,7 +51,7 @@ rparams.pidParameters.k_i = (rp * (1.2/6.0)) / 2.0
 rparams.pidParameters.k_d = (rp * (1.2/6.0)) / 8.0
 rparams.pidParameters.k_p = rp
 
-angle = 7
+angle = -7
 
 interface.startLogging("./lol.txt")
 
@@ -60,7 +60,7 @@ interface.startLogging("./lol.txt")
     #rparams.pidParameters.k_p = rp
 interface.setMotorAngleControllerParameters(motors[0], lparams)
 interface.setMotorAngleControllerParameters(motors[1], rparams)
-interface.increaseMotorAngleReferences(motors,[6,-6])
+interface.increaseMotorAngleReferences(motors,[-30,-30])
 targetAngles = interface.getMotorAngleReferences(motors)
 while not interface.motorAngleReferencesReached(motors) :
     motorAngles = interface.getMotorAngles(motors)

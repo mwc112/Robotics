@@ -1,10 +1,12 @@
+#!/usr/bin/python -tt
+
 import brickpi
 import time
-
+import sys
 interface=brickpi.Interface()
 interface.initialize()
 
-port = 0 # port which ultrasoic sensor is plugged in to
+port = int(sys.argv[1]) # port which ultrasoic sensor is plugged in to
 
 interface.sensorEnable(port, brickpi.SensorType.SENSOR_ULTRASONIC);
 

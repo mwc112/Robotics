@@ -76,29 +76,28 @@ angle = 3.64
 interface.setMotorAngleControllerParameters(motors[0],lparams)
 interface.setMotorAngleControllerParameters(motors[1],rparams)
 
-interface.startLogging("finalLog.tsv")
-for i in range(0,40):
+
+def Left90deg():
+	interface.increaseMotorAngleReferences(motors,[-angle, angle])
 	time.sleep(2)
-	interface.increaseMotorAngleReferences(motors,[angle2,angle2])
-#	while not interface.motorAngleReferencesReached(motors):
-#		pass
+
+def Right90deg():
+	interface.increaseMotorAngleReferences(motors, [angle, -angle])
+	time.sleep(2)
+
+def forwards40():
+	interface.increaseMotorAngleReferences(motors, [angle2, angle2])
 	time.sleep(3)
-	interface.increaseMotorAngleReferences(motors,[angle, -angle])
-#	while not interface.motorAngleReferencesReached(motors):
-#		pass
-	#interface.increaseMotorAngleReferences(motors,[angle2,angle2])
-	#while not interface.motorAngleReferencesReached(motors):
-	#	pass
-interface.stopLogging()
-        
-	
 
+def backwards40():
+	interface.increaseMotorAngleReferences(motors, [-angle2, -angle2])
+	time.sleep(3)
 
-#interface.startLogging(join(logsFolder,"tunedl{0}r{1}.txt".format(lk_u,rk_u)))
-#interface.increaseMotorAngleReferences(motors,[angle,angle])
-#targetAngles = interface.getMotorAngleReferences(motors)
-time.sleep(7)
-#interface.stopLogging()
+Left90deg()
+Right90deg()
+
+forwards40()
+backwards40()
 
 interface.terminate()
 
