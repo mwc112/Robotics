@@ -1,0 +1,143 @@
+import random
+import math
+import brickpi
+
+
+
+numberOfParticles = 100
+particles = [(0, 0, 0)] * numberOfParticles
+motors = [0,1]
+interface=brickpi.Interface()
+interface.initialize()
+
+def set_up_motors(interface, motors):
+
+    interface.motorEnable(motors[0])
+    interface.motorEnable(motors[1])
+
+    rparams = interface.MotorAngleControllerParameters()
+    rparams.maxRotationAcceleration = 15.0
+    rparams.maxRotationSpeed = 8.0
+    rparams.feedForwardGain = 255/22.0
+    rparams.minPWM = 42.0
+    rparams.pidParameters.minOutput = -300
+    rparams.pidParameters.maxOutput = 300
+    
+    lparams = interface.MotorAngleControllerParameters()
+    lparams.maxRotationAcceleration = 15.0
+    lparams.maxRotationSpeed = 8.0
+    lparams.feedForwardGain = 255/22.0
+    lparams.minPWM = 42.0
+    lparams.pidParameters.minOutput = -300
+    lparams.pidParameters.maxOutput = 300
+
+    lk_u = 600
+    rk_u = 600
+    lp_u = 0.270
+    rp_u = 0.276
+
+    lk_p = 0.6 * lk_u
+    rk_p = 0.6 * rk_u
+
+    rparams.pidParameters.k_i = 1.1 * lk_p * lp_u
+    rparams.pidParameters.K_d = lk_p * lp_u / 8.0
+    rparams.pidParameters.k_p = lk_p
+    lparams.pidParameters.k_i = 1.15 * rk_p * rp_u
+    lparams.pidParameters.K_d = rk_p * rp_u / 8.0
+    lparams.pidParameters.k_p = rk_p
+    
+    interface.setMotorAngleControllerParameters(motors[0],lparams)
+    interface.setMotorAngleControllerParameters(motors[1],rparams)
+
+def drawParticles():
+    print "drawParticles:" + str([(200 + 2*x, 200 + 2*y, theta) for (x, y, theta) in particles])
+    
+def updateParticles(dist):
+    for i in range(0,len(particles)):
+        rand = random.gauss(0,0.05)
+        angRand = random.gauss(0,0.05)
+        x = particles[i][0] + (dist + rand) * math.cos(particles[i][2])
+        y = particles[i][1] + (dist + rand) * math.sin(particles[i][2])
+        theta = particles[i][2] + angRand
+        particles[i] = (x, y, theta)
+    drawParticles()
+        
+def estimatePosition(particles, weights):
+    sumX = 0
+    sumY = 0
+    sumT = 0
+    for i in range(0, len(particles)):
+        sumX += particles[i][0] * weights[i]
+        sumY += particles[i][1] * weights[i]
+        sumT += particles[i][2] * weights[i]
+    return (sumX, sumY, sumT)
+
+def navigateToWaypoint(X, Y):
+    weights = [1.0/len(particles)] * len(particles)
+    position = estimatePosition(particles, weights)
+    dx = X - position[0]
+    print dx
+    dy = Y - position[1]
+    print dy
+    dist = math.sqrt(dx * dx + dy * dy)
+    angle = math.atan2(dy, dx)
+    dt = angle - position[2]
+    print dt
+    rotate(dt)
+    moveForward(dist)
+    
+        
+def updateParticlesRot(ang):
+    for i in range(0, len(particles)):
+        rand = random.gauss(0,0.05)
+        theta = particles[i][2] + ang + rand
+        x = particles[i][0]
+        y = particles[i][1]
+
+        particles[i] = (x, y, theta)
+    drawParticles()
+        
+        
+def moveForward(dist):
+    angle = 0.35625
+    angle = dist*angle
+    interface.increaseMotorAngleReferences(motors,[angle,angle])
+    while not interface.motorAngleReferencesReached(motors):
+        pass
+    updateParticles(dist)
+    
+def rotate(ang=math.pi/2):
+    angle = (3.64/(math.pi/2)) * ang
+    interface.increaseMotorAngleReferences(motors,[angle,-angle])
+    while not interface.motorAngleReferencesReached(motors):
+        pass
+    updateParticlesRot(ang)
+    
+def rotatemin90():
+    angle = -3.64
+    interface.increaseMotorAngleReferences(motors,[angle,-angle])
+    while not interface.motorAngleReferencesReached(motors):
+        pass
+    updateParticlesRot(-math.pi/2)
+    
+    
+def getWayPoint():
+    inputStr = raw_input("Enter waypoint as 'x,y' in meters:")
+    x = float(inputStr.split(",")[0])
+    y = float(inputStr.split(",")[1])
+    return (x,y)
+    
+    
+set_up_motors(interface, motors)
+
+
+navigateToWaypoint(*getWayPoint())
+
+navigateToWaypoint(1,10)
+navigateToWaypoint(4,15)
+navigateToWaypoint(55,55)
+navigateToWaypoint(50,27)
+navigateToWaypoint(0,0)
+
+
+interface.terminate()

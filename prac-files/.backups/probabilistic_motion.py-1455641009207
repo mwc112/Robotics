@@ -1,0 +1,6 @@
+import random
+
+numberOfParticles = 100
+
+particles = [None] * numberOfParticles
+print particles

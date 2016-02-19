@@ -1,0 +1,103 @@
+import random
+import math
+import brickpi
+
+
+
+numberOfParticles = 100
+particles = [(0, 0, 0)] * numberOfParticles
+motors = [0,1]
+interface=brickpi.Interface()
+interface.initialize()
+
+def set_up_motors(interface, motors):
+
+    interface.motorEnable(motors[0])
+    interface.motorEnable(motors[1])
+
+    rparams = interface.MotorAngleControllerParameters()
+    rparams.maxRotationAcceleration = 15.0
+    rparams.maxRotationSpeed = 8.0
+    rparams.feedForwardGain = 255/22.2
+    rparams.minPWM = 42.0
+    rparams.pidParameters.minOutput = -300
+    rparams.pidParameters.maxOutput = 300
+    
+    lparams = interface.MotorAngleControllerParameters()
+    lparams.maxRotationAcceleration = 15.0
+    lparams.maxRotationSpeed = 8.0
+    lparams.feedForwardGain = 255/22.2
+    lparams.minPWM = 42.0
+    lparams.pidParameters.minOutput = -300
+    lparams.pidParameters.maxOutput = 300
+
+    lk_u = 870
+    rk_u = 920
+    lp_u = 0.270
+    rp_u = 0.276
+
+    lk_p = 0.6 * lk_u
+    rk_p = 0.6 * rk_u
+
+    rparams.pidParameters.k_i = 1.1 * lk_p * lp_u
+    rparams.pidParameters.K_d = lk_p * lp_u / 8.0
+    rparams.pidParameters.k_p = lk_p
+    lparams.pidParameters.k_i = 1.15 * rk_p * rp_u
+    lparams.pidParameters.K_d = rk_p * rp_u / 8.0
+    lparams.pidParameters.k_p = rk_p
+    
+    interface.setMotorAngleControllerParameters(motors[0],lparams)
+    interface.setMotorAngleControllerParameters(motors[1],rparams)
+
+def drawParticles():
+    print "drawParticles:" + str([(20 + 10*x, 20 + 10*y, theta) for (x, y, theta) in particles])
+    
+def updateParticles(dist):
+    for i in range(0,len(particles)):
+        rand = random.gauss(0,0.1)
+        angRand = random.gauss(0,0.1)
+        x = particles[i][0] + (dist + rand) * math.cos(particles[i][2])
+        y = particles[i][1] + (dist + rand) * math.sin(particles[i][2])
+        theta = particles[i][2] + angRand
+        particles[i] = (x, y, theta)
+    drawParticles()
+        
+        
+
+        
+def updateParticlesRot(ang):
+    for i in range(0, len(particles)):
+        rand = random.gauss(0,0.1)
+        theta = particle[i][2] + ang + rand
+        x = particles[i][0]
+        y = particles[i][1]
+        particles[i] = (x, y, theta)
+    drawParticles()
+        
+        
+def moveForward(dist):
+    angle = 0.35625
+    angle = dist*angle
+    #angle2=-14.25
+    interface.increaseMotorAngleReferences(motors,[angle,angle])
+    while not interface.motorAngleReferencesReached(motors):
+        pass
+    updateParticles(dist)
+    
+def rotate90():
+    angle = 3.64
+    interface.increaseMotorAngleReferences(motors,[angle,-angle])
+    while not interface.motorAngleReferencesReached(motors):
+        pass
+    updateParticlesRot(90)
+    
+set_up_motors(interface, motors)
+for i in range(1,3):
+    moveForward(10)
+    
+rotate90()
+
+for i in range(1,3):
+    moveForward(10)
+    
+interface.terminate()

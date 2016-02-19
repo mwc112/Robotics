@@ -15,10 +15,11 @@ motors = [0,1]
 angle2 = -14.25
 angle = 3.64
 
-zeroOffset = 17 
-currentSpeed = 0
+zeroOffset = 30 
+currentSpeed = [0,0]
 port = 2
 maxspeed = 20
+
 def usToSpeed(us):
 	return min(maxspeed, us/2)
 
@@ -31,13 +32,15 @@ def main():
 		usReading = getUSReading()
 		if usReading != prevReading:
 			print usReading
-			forwards(usToSpeed(usReading))
 			prevReading = usReading
-		time.sleep(0.1)
+		if usReading > 0:
+			forwards(maxspeed + 6 - usReading, maxspeed - 6 -usReading)
+		elif usReading < 0:
+			forwards(maxspeed - 6 +usReading, maxspeed + 6 +usReading)
 	stop()
 	interface.terminate()
 
-readings = collections.deque(maxlen=25)
+readings = 0
 def median(l):
     half = len(l) // 2
     l.sort()
@@ -58,12 +61,16 @@ def right(ang=1):
 	interface.increaseMotorAngleReferences(motors, [ang*angle, -ang*angle])
 	time.sleep(ang*2)
 
-def forwards(spd=6):
+def forwards(spdl=6, spdr=6):
+	spdl = min(spdl, 25)
+	spdr = min(spdr, 25)
 	global currentSpeed
-	if currentSpeed != spd:
+	if currentSpeed[0] != spdl or currentSpeed[1] != spdr:
 		print "speddd"
-		interface.setMotorRotationSpeedReferences(motors, [spd, spd])
-		currentSpeed = spd
+		interface.setMotorRotationSpeedReferences(motors, [spdl, spdr])
+		currentSpeed[0] = spdl
+		currentSpeed[1] = spdr
+		print currentSpeed
 	
 
 def backwards(spd=6):
@@ -114,12 +121,12 @@ def setupMotors():
 	rk_p = 0.6 * rk_u
 
 	#2.2
-	rparams.pidParameters.k_i = 0.5 * lk_p * lp_u
+	rparams.pidParameters.k_i = 0 #0.5 * lk_p * lp_u
 	rparams.pidParameters.K_d = lk_p * lp_u / 8.0
 	rparams.pidParameters.k_p = lk_p
 
 
-	lparams.pidParameters.k_i =0.5 * rk_p * rp_u
+	lparams.pidParameters.k_i = 0 #0.5 * rk_p * rp_u
 	lparams.pidParameters.K_d = rk_p * rp_u / 8.0
 	lparams.pidParameters.k_p = rk_p
 

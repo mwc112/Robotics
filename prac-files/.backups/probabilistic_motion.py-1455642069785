@@ -1,0 +1,24 @@
+import random
+import math
+import brickpi
+
+numberOfParticles = 100
+particles = [(0, 0, 0)] * numberOfParticles
+
+def updateParticles(dist):
+    for particle in particles:
+        rand = random.guas(0,1)
+        angRand = random.guas(0,1)
+        particle[0] = particle[0] + (dist + rand) * math.cos(particle[2])
+        particle[1] = particle[1] + (dist + rang) * math.sin(particle[2])
+        particle[2] = particle[2] + angRand
+        
+        
+def updateParticlesRot(ang):
+    for particle in particles:
+        rand = random.guas(0,1)
+        particle[2] = particle[2] + ang + rand
+        
+        
+def moveForward(dist):
+    
