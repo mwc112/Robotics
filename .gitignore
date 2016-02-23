@@ -1,0 +1,5 @@
+*.swp
+logs
+logsOld
+*.pyc
+finalLog.tsv

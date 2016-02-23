@@ -1,114 +1,17 @@
 #!/usr/bin/env python
 
 import random
-import math
-import brickpi
-from setupMotors import setupMotors
-
-
-numberOfParticles = 100
-particles = [(0, 0, 0)] * numberOfParticles
-motors = [0,1]
-interface=brickpi.Interface()
-interface.initialize()
+from Robot import Robot
+from WaypointNavigator import WaypointNavigator
+from Canvas import Canvas
 
 def main():
-    setupMotors(interface, motors)
-
-    navigateToWaypoints([(10,0), (20,0), (30,0), (40,0), (40,10),(40,20),(40,30), (40,40), (30,40), (20,40),(10,40),(0,40), (0,30), (0,20), (0,10), (0,0)])
-
-def cmToPx(value):
-    return 200 + 8 * value
-
-def drawParticles():
-    print "drawParticles:" + str([(cmToPx(x), cmToPx(y), theta) for (x, y, theta) in particles])
-   
-def drawLine(line):
-    print "drawLine:" + str((cmToPx(line[0]), cmToPx(line[1]), cmToPx(line[2]), cmToPx(line[3])))
- 
-def updateParticles(dist):
-    for i in range(0,len(particles)):
-        rand = random.gauss(0,0.05)
-        angRand = random.gauss(0,0.05)
-        x = particles[i][0] + (dist + rand) * math.cos(particles[i][2])
-        y = particles[i][1] + (dist + rand) * math.sin(particles[i][2])
-        theta = particles[i][2] + angRand
-        particles[i] = (x, y, theta)
-    drawParticles()
-        
-def estimatePosition(particles, weights):
-    sumX = 0
-    sumY = 0
-    sumT = 0
-    for i in range(0, len(particles)):
-        sumX += particles[i][0] * weights[i]
-        sumY += particles[i][1] * weights[i]
-        sumT += particles[i][2] * weights[i]
-    return (sumX, sumY, sumT)
-
-def navigateToWaypoints(wps):
-    for wp in wps:
-        navigateToWaypoint(*wp)
-
-def navigateToWaypoint(X, Y):
-    weights = [1.0/len(particles)] * len(particles)
-    position = estimatePosition(particles, weights)
-    drawLine((position[0], position[1], X, Y))
-    dx = X - position[0]
-    dy = Y - position[1]
-    dist = math.sqrt(dx * dx + dy * dy)
-    angle = -math.atan2(dy, dx)
-    dt = angle - position[2]
-    rotate(dt)
-    moveForward(dist)
+    robot = Robot()
+    canvas = Canvas()
+    navigator = WaypointNavigator(robot, canvas);
     
-        
-def updateParticlesRot(ang):
-    for i in range(0, len(particles)):
-        rand = random.gauss(0,0.05)
-        theta = particles[i][2] + ang + rand
-        x = particles[i][0]
-        y = particles[i][1]
+    navigator.navigateToWaypoints([(10,0), (20,0), (30,0), (40,0), (40,10),(40,20),(40,30), (40,40), (30,40), (20,40),(10,40),(0,40), (0,30), (0,20), (0,10), (0,0)])
 
-        particles[i] = (x, y, theta)
-    drawParticles()
-        
-        
-def moveForward(dist):
-    angle = 0.35625
-    angle = dist*angle
-    interface.increaseMotorAngleReferences(motors,[angle,angle])
-    while not interface.motorAngleReferencesReached(motors):
-        pass
-    updateParticles(dist)
-    
-def rotate(ang=math.pi/2):
-    if ang > math.pi:
-        ang = - (2*math.pi - ang)
-    if ang < -math.pi:
-        ang = (2*math.pi + ang)
-    print (ang / math.pi * 180)
-    angle = ((3.64+0.17)/(math.pi/2)) * ang
-    interface.increaseMotorAngleReferences(motors,[angle,-angle])
-    while not interface.motorAngleReferencesReached(motors):
-        pass
-    updateParticlesRot(ang)
-    
-    
-    
-def getWayPoint():
-    inputStr = raw_input("Enter waypoint as 'x,y' in meters:")
-    if inputStr == 'q':
-        exit()
-    try:
-        x = float(inputStr.split(",")[0]) * 100
-        y = float(inputStr.split(",")[1]) * 100
-    except:
-        print("Please enter valid coordinates as numbers in the format x,y or type q to quit")
-        return getWayPoint()
-    return (x,y)
-    
 
 main() 
 
-interface.terminate()
