@@ -5,9 +5,10 @@ def setupMotors(interface, motors):
 
     rparams = createParams(interface)
     lparams = createParams(interface)
+    sparams = createParams(interface)
 
     lk_u = 600
-    rk_u = 600
+    rk_u = 580
     #lk_u = 910
     #rk_u = 870
     lp_u = 0.270
@@ -23,9 +24,15 @@ def setupMotors(interface, motors):
     lparams.pidParameters.K_d = rk_p * rp_u / 8.0
     lparams.pidParameters.k_p = rk_p
 
+    sparams.pidParameters.k_i = 0
+    sparams.pidParameters.K_d = rk_p * rp_u / 8.0
+    sparams.pidParameters.k_p = rk_p
+
     interface.setMotorAngleControllerParameters(motors[0],lparams)
     interface.setMotorAngleControllerParameters(motors[1],rparams)
+    interface.setMotorAngleControllerParameters(3,sparams)
 
+    interface.motorEnable(3)
 
 def createParams(interface):
     params = interface.MotorAngleControllerParameters()

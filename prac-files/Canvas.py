@@ -1,6 +1,6 @@
 class Canvas:
     def cmToPx(self, value):
-        return 200 + 8 * value
+        return 200 + 1 * value
 
     def drawParticles(self, particles):
         print "drawParticles:" + str([(self.cmToPx(x), self.cmToPx(y), theta) for (x, y, theta) in particles])
