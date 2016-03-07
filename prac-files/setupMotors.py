@@ -9,13 +9,16 @@ def setupMotors(interface, motors):
 
     lk_u = 600
     rk_u = 580
+    sk_u = 700
     #lk_u = 910
     #rk_u = 870
     lp_u = 0.270
     rp_u = 0.276
+    sp_u = 0.270
 
     lk_p = 0.6 * lk_u
     rk_p = 0.6 * rk_u
+    sk_p = 0.6 * sk_u
 
     rparams.pidParameters.k_i = 1.55 * lk_p * lp_u
     rparams.pidParameters.K_d = lk_p * lp_u / 8.0
@@ -24,9 +27,12 @@ def setupMotors(interface, motors):
     lparams.pidParameters.K_d = rk_p * rp_u / 8.0
     lparams.pidParameters.k_p = rk_p
 
-    sparams.pidParameters.k_i = 0
-    sparams.pidParameters.K_d = rk_p * rp_u / 8.0
-    sparams.pidParameters.k_p = rk_p
+
+    sparams.feedForwardGain = 255/25.0
+    sparams.minPWM = 40
+    sparams.pidParameters.k_i = 0#1.1 * sk_p * sp_u
+    sparams.pidParameters.K_d = sk_p * sp_u / 8.0
+    sparams.pidParameters.k_p = sk_p
 
     interface.setMotorAngleControllerParameters(motors[0],lparams)
     interface.setMotorAngleControllerParameters(motors[1],rparams)

@@ -1,3 +1,6 @@
+import random
+import os
+
 class LocationSignature:
     def __init__(self, no_bins = 360):
         self.sig = [0] * no_bins
