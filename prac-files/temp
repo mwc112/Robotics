@@ -1,0 +1,980 @@
+BrickPiSetup: 0
+controlAndSensingLoop: running
+warning: dt = 0.032577 > 0.03
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+21
+21
+21
+21
+22
+22
+22
+21
+21
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+18
+18
+18
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+21
+20
+20
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+22
+26
+27
+28
+28
+28
+27
+26
+25
+26
+25
+25
+25
+25
+25
+25
+25
+24
+24
+24
+24
+24
+24
+24
+24
+24
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+24
+24
+24
+25
+33
+25
+25
+25
+25
+24
+24
+24
+25
+25
+27
+26
+26
+25
+25
+24
+24
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+24
+23
+24
+24
+24
+23
+23
+23
+23
+23
+23
+25
+25
+25
+24
+24
+24
+24
+24
+24
+25
+26
+27
+26
+26
+26
+27
+27
+27
+27
+27
+28
+28
+22
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+20
+21
+21
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+17
+17
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+17
+17
+20
+20
+20
+20
+20
+20
+20
+20
+22
+23
+21
+20
+22
+20
+20
+21
+20
+21
+21
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+24
+24
+24
+24
+24
+24
+24
+24
+24
+24
+24
+24
+25
+25
+26
+26
+25
+24
+26
+26
+27
+27
+27
+27
+27
+26
+25
+26
+22
+22
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+17
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+15
+16
+16
+16
+15
+15
+15
+15
+15
+15
+15
+15
+15
+15
+15
+16
+15
+16
+16
+16
+16
+16
+16
+16
+16
+16
+16
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+23
+22
+23
+22
+21
+21
+21
+21
+20
+20
+20
+20
+20
+20
+21
+21
+21
+20
+20
+20
+20
+20
+21
+20
+22
+22
+22
+21
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+19
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+20
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+22
+22
+22
+24
+24
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+22
+23
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+21
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+22
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+24
+24
+31
+25
+24
+24
+24
+24
+24
+25
+25
+26
+27
+26
+25
+25
+24
+24
+24
+24
+24
+24
+24
+24
+24
+24
+24
+24
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+23
+i 0 obs: 0 read: 0
+i 1 obs: 0 read: 0
+i 2 obs: 0 read: 0
+i 3 obs: 0 read: 0
+i 4 obs: 0 read: 0
+i 5 obs: 0 read: 0
+i 6 obs: 0 read: 0
+i 7 obs: 0 read: 0
+i 8 obs: 0 read: 0
+i 9 obs: 0 read: 0
+i 10 obs: 0 read: 0
+i 11 obs: 0 read: 0
+i 12 obs: 0 read: 0
+i 13 obs: 0 read: 0
+i 14 obs: 0 read: 0
+i 15 obs: 0 read: 13
+i 16 obs: 32 read: 26
+i 17 obs: 4 read: 1
+i 18 obs: 3 read: 0
+i 19 obs: 30 read: 29
+i 20 obs: 70 read: 78
+i 21 obs: 35 read: 53
+i 22 obs: 7 read: 40
+i 23 obs: 107 read: 62
+i 24 obs: 27 read: 34
+i 25 obs: 21 read: 9
+i 26 obs: 9 read: 8
+i 27 obs: 9 read: 6
+i 28 obs: 5 read: 0
+i 29 obs: 0 read: 0
+i 30 obs: 0 read: 0
+i 31 obs: 0 read: 1
+i 32 obs: 0 read: 0
+i 33 obs: 1 read: 0
+i 34 obs: 0 read: 0
+i 35 obs: 0 read: 0
+i 36 obs: 0 read: 0
+i 37 obs: 0 read: 0
+i 38 obs: 0 read: 0
+i 39 obs: 0 read: 0
+i 40 obs: 0 read: 0
+i 41 obs: 0 read: 0
+i 42 obs: 0 read: 0
+i 43 obs: 0 read: 0
+i 44 obs: 0 read: 0
+i 45 obs: 0 read: 0
+i 46 obs: 0 read: 0
+i 47 obs: 0 read: 0
+i 48 obs: 0 read: 0
+i 49 obs: 0 read: 0
+i 50 obs: 0 read: 0
+i 51 obs: 0 read: 0
+i 52 obs: 0 read: 0
+i 53 obs: 0 read: 0
+i 54 obs: 0 read: 0
+i 55 obs: 0 read: 0
+i 56 obs: 0 read: 0
+i 57 obs: 0 read: 0
+i 58 obs: 0 read: 0
+i 59 obs: 0 read: 0
+i 60 obs: 0 read: 0
+i 61 obs: 0 read: 0
+i 62 obs: 0 read: 0
+i 63 obs: 0 read: 0
+i 64 obs: 0 read: 0
+i 65 obs: 0 read: 0
+i 66 obs: 0 read: 0
+i 67 obs: 0 read: 0
+i 68 obs: 0 read: 0
+i 69 obs: 0 read: 0
+i 70 obs: 0 read: 0
+i 71 obs: 0 read: 0
+i 72 obs: 0 read: 0
+i 73 obs: 0 read: 0
+i 74 obs: 0 read: 0
+i 75 obs: 0 read: 0
+i 76 obs: 0 read: 0
+i 77 obs: 0 read: 0
+i 78 obs: 0 read: 0
+i 79 obs: 0 read: 0
+i 80 obs: 0 read: 0
+i 81 obs: 0 read: 0
+i 82 obs: 0 read: 0
+i 83 obs: 0 read: 0
+i 84 obs: 0 read: 0
+i 85 obs: 0 read: 0
+i 86 obs: 0 read: 0
+i 87 obs: 0 read: 0
+i 88 obs: 0 read: 0
+i 89 obs: 0 read: 0
+i 90 obs: 0 read: 0
+i 91 obs: 0 read: 0
+i 92 obs: 0 read: 0
+i 93 obs: 0 read: 0
+i 94 obs: 0 read: 0
+i 95 obs: 0 read: 0
+i 96 obs: 0 read: 0
+i 97 obs: 0 read: 0
+i 98 obs: 0 read: 0
+i 99 obs: 0 read: 0
+i 100 obs: 0 read: 0
+i 101 obs: 0 read: 0
+i 102 obs: 0 read: 0
+i 103 obs: 0 read: 0
+i 104 obs: 0 read: 0
+i 105 obs: 0 read: 0
+i 106 obs: 0 read: 0
+i 107 obs: 0 read: 0
+i 108 obs: 0 read: 0
+i 109 obs: 0 read: 0
+i 110 obs: 0 read: 0
+i 111 obs: 0 read: 0
+i 112 obs: 0 read: 0
+i 113 obs: 0 read: 0
+i 114 obs: 0 read: 0
+i 115 obs: 0 read: 0
+i 116 obs: 0 read: 0
+i 117 obs: 0 read: 0
+i 118 obs: 0 read: 0
+i 119 obs: 0 read: 0
+i 120 obs: 0 read: 0
+i 121 obs: 0 read: 0
+i 122 obs: 0 read: 0
+i 123 obs: 0 read: 0
+i 124 obs: 0 read: 0
+i 125 obs: 0 read: 0
+i 126 obs: 0 read: 0
+i 127 obs: 0 read: 0
+i 128 obs: 0 read: 0
+i 129 obs: 0 read: 0
+i 130 obs: 0 read: 0
+i 131 obs: 0 read: 0
+i 132 obs: 0 read: 0
+i 133 obs: 0 read: 0
+i 134 obs: 0 read: 0
+i 135 obs: 0 read: 0
+i 136 obs: 0 read: 0
+i 137 obs: 0 read: 0
+i 138 obs: 0 read: 0
+i 139 obs: 0 read: 0
+i 140 obs: 0 read: 0
+i 141 obs: 0 read: 0
+i 142 obs: 0 read: 0
+i 143 obs: 0 read: 0
+i 144 obs: 0 read: 0
+i 145 obs: 0 read: 0
+i 146 obs: 0 read: 0
+i 147 obs: 0 read: 0
+i 148 obs: 0 read: 0
+i 149 obs: 0 read: 0
+i 150 obs: 0 read: 0
+i 151 obs: 0 read: 0
+i 152 obs: 0 read: 0
+i 153 obs: 0 read: 0
+i 154 obs: 0 read: 0
+i 155 obs: 0 read: 0
+i 156 obs: 0 read: 0
+i 157 obs: 0 read: 0
+i 158 obs: 0 read: 0
+i 159 obs: 0 read: 0
+i 160 obs: 0 read: 0
+i 161 obs: 0 read: 0
+i 162 obs: 0 read: 0
+i 163 obs: 0 read: 0
+i 164 obs: 0 read: 0
+i 165 obs: 0 read: 0
+i 166 obs: 0 read: 0
+i 167 obs: 0 read: 0
+i 168 obs: 0 read: 0
+i 169 obs: 0 read: 0
+i 170 obs: 0 read: 0
+i 171 obs: 0 read: 0
+i 172 obs: 0 read: 0
+i 173 obs: 0 read: 0
+i 174 obs: 0 read: 0
+i 175 obs: 0 read: 0
+i 176 obs: 0 read: 0
+i 177 obs: 0 read: 0
+i 178 obs: 0 read: 0
+i 179 obs: 0 read: 0
+i 180 obs: 0 read: 0
+i 181 obs: 0 read: 0
+i 182 obs: 0 read: 0
+i 183 obs: 0 read: 0
+i 184 obs: 0 read: 0
+i 185 obs: 0 read: 0
+i 186 obs: 0 read: 0
+i 187 obs: 0 read: 0
+i 188 obs: 0 read: 0
+i 189 obs: 0 read: 0
+i 190 obs: 0 read: 0
+i 191 obs: 0 read: 0
+i 192 obs: 0 read: 0
+i 193 obs: 0 read: 0
+i 194 obs: 0 read: 0
+i 195 obs: 0 read: 0
+i 196 obs: 0 read: 0
+i 197 obs: 0 read: 0
+i 198 obs: 0 read: 0
+i 199 obs: 0 read: 0
+i 200 obs: 0 read: 0
+i 201 obs: 0 read: 0
+i 202 obs: 0 read: 0
+i 203 obs: 0 read: 0
+i 204 obs: 0 read: 0
+i 205 obs: 0 read: 0
+i 206 obs: 0 read: 0
+i 207 obs: 0 read: 0
+i 208 obs: 0 read: 0
+i 209 obs: 0 read: 0
+i 210 obs: 0 read: 0
+i 211 obs: 0 read: 0
+i 212 obs: 0 read: 0
+i 213 obs: 0 read: 0
+i 214 obs: 0 read: 0
+i 215 obs: 0 read: 0
+i 216 obs: 0 read: 0
+i 217 obs: 0 read: 0
+i 218 obs: 0 read: 0
+i 219 obs: 0 read: 0
+i 220 obs: 0 read: 0
+i 221 obs: 0 read: 0
+i 222 obs: 0 read: 0
+i 223 obs: 0 read: 0
+i 224 obs: 0 read: 0
+i 225 obs: 0 read: 0
+i 226 obs: 0 read: 0
+i 227 obs: 0 read: 0
+i 228 obs: 0 read: 0
+i 229 obs: 0 read: 0
+i 230 obs: 0 read: 0
+i 231 obs: 0 read: 0
+i 232 obs: 0 read: 0
+i 233 obs: 0 read: 0
+i 234 obs: 0 read: 0
+i 235 obs: 0 read: 0
+i 236 obs: 0 read: 0
+i 237 obs: 0 read: 0
+i 238 obs: 0 read: 0
+i 239 obs: 0 read: 0
+i 240 obs: 0 read: 0
+i 241 obs: 0 read: 0
+i 242 obs: 0 read: 0
+i 243 obs: 0 read: 0
+i 244 obs: 0 read: 0
+i 245 obs: 0 read: 0
+i 246 obs: 0 read: 0
+i 247 obs: 0 read: 0
+i 248 obs: 0 read: 0
+i 249 obs: 0 read: 0
+i 250 obs: 0 read: 0
+i 251 obs: 0 read: 0
+i 252 obs: 0 read: 0
+i 253 obs: 0 read: 0
+i 254 obs: 0 read: 0
+terminate...
+controlAndSensingLoop: finished

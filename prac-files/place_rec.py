@@ -112,13 +112,14 @@ def navigate_in_steps(x, y):
     dy = y - cy
     stepX = dx/5.0
     stepY = dy/5.0
+    print "stepping to " + str(x) + "," + str(y) + " in: " + str(stepX) + "," + str(stepY)
     for i in range(0,5):
         cx+=stepX
         cy+=stepY
         navigate_with_mc(cx,cy)
 
 robot = Robot()
-canvas = Canvas()
+canvas = None #Canvas()
 sigCon = SignatureContainer()
 placerec = PlaceRecognizer(robot, sigCon)
 
@@ -138,9 +139,9 @@ currentLocation = waypoints[locidx]
 
 navigator = WaypointNavigator(robot, canvas, currentLocation[0], currentLocation[1], rot/180.0 * math.pi)
 
-nextWP = waypoints[locidx+1]
-
-navigate_in_steps(nextWP[0], nextWP[1])
+for i in range(1, 6):
+    nextWP = waypoints[locidx+(i%5)]
+    navigate_in_steps(nextWP[0], nextWP[1])
 
 
 
