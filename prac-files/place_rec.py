@@ -8,95 +8,8 @@ from Robot import Robot
 from WaypointNavigator import WaypointNavigator
 from Canvas import Canvas
 from SignatureContainer import LocationSignature, SignatureContainer
+from PlaceRecognizer import PlaceRecognizer
 
-
-
-class PlaceRecognizer:
-    def __init__(self, robot, signatures):
-        self.robot = robot;
-        self.signatures = signatures
-
-    def getReading(self):
-        max = 40
-        readings = [0] * max
-        for i in range(0,max):
-            readings[i] = self.robot.get_us_reading()[0]
-        return sum(readings)/len(readings)
-
-    def characterizeLocation(self, ls):
-        for i in range(len(ls.sig)):
-            self.robot.rotateUSTo(i)
-            ls.sig[i] = self.getReading()
-        self.robot.rotateUSTo(0)
-
-    def learnLocation(self, idx):
-        ls = LocationSignature(360)
-        self.characterizeLocation(ls)
-        self.signatures.save(ls, idx) 
-
-
-    def recognizeLocation(self):
-        ls_obs = LocationSignature()
-        self.characterizeLocation(ls_obs)
-        
-        minsqdiff = sys.maxint
-        minreadsig = -1
-        minsqindex = -1
-        for idx in range(self.signatures.size):
-            ls_read = self.signatures.read(idx)
-            for i in range(len(ls_read.sig)):
-                diff = abs(ls_read.sig[i] - ls_obs.sig[i])
-#                print "read: " + str(ls_read.sig[i]) + " obs: " + str(ls_obs.sig[i]) + " diff: " + str(diff)
-            obs_hist = self.countDepths(ls_obs.sig)
-            read_hist = self.countDepths(ls_read.sig)
-            sqdiff = self.squaredDiff(obs_hist, read_hist)
-            if sqdiff < minsqdiff:
-                minsqdiff = sqdiff
-                minsqindex = idx
-                minreadsig = ls_read
-            #for i in range(len(obs_hist)):
-            #    print "i "+str(i) +" obs: " + str(obs_hist[i]) + " read: " + str(read_hist[i])
-        print self.findRotation(minreadsig.sig, ls_obs.sig)
-        print minsqindex
-
-    def countDepths(self,arr):
-        d = [0] * 256
-        for idx in arr:
-            d[idx] += 1
-        return d
-
-    def squaredDiff(self, arr1, arr2):
-        sum = 0
-        for i in range(len(arr1)):
-            sum += pow(arr1[i] - arr2[i], 2)
-        return sum
-
-    def findRotation(self, obs, saved):        
-        saved.extend(saved)
-        minsum = sys.maxint
-        minidx = 0;
-        for j in range(len(obs)):
-            sum = 0
-            for i in range(len(obs)):
-                sum += math.pow(saved[j+i] - obs[i],2)
-            if sum < minsum:
-                minidx = j
-                minsum = sum
-        return 360 - minidx
-         
-
-robot = Robot()
-canvas = Canvas()
-navigator = WaypointNavigator(robot, canvas, 84, 30)
-sigCon = SignatureContainer()
-placerec = PlaceRecognizer(robot, sigCon)
-
-for i in range(6):
-   placerec.learnLocation(i)
-   raw_input("Enter your name: ")
-
-
-#placerec.recognizeLocation()
 
 Point = namedtuple('Point', 'x y')
 
@@ -109,11 +22,11 @@ E = Point(168.0, 210.0)
 F = Point(168.0, 84.0)
 G = Point(210.0, 84.0)
 H = Point(210.0, 0.0)
-    
+
 Wall = namedtuple('Wall', 'A B name')
 
 walls = [ Wall(O, A, 'a'), Wall(A, B, 'b'), Wall(C, D, 'c'), Wall(D, E, 'd'),
-            Wall(E, F, 'e'), Wall(F,G, 'f'), Wall(G,H, 'g'), Wall(H,O, 'h')] 
+            Wall(E, F, 'e'), Wall(F,G, 'f'), Wall(G,H, 'g'), Wall(H,O, 'h')]
 
 def dist_to_wall(x, y, theta, wall):
     try:
@@ -140,7 +53,6 @@ def calculate_likelihood(x, y, theta, z):
     likelihood = math.pow(math.e, (-math.pow(z - closestWallDistance, 2))/(2 * 0.005))
     return likelihood
 
-
 def update_normalise_resample_weights():
     #print navigator.particles
     us_reading = robot.get_us_reading()[0]
@@ -150,7 +62,7 @@ def update_normalise_resample_weights():
     for i in range(1, len(navigator.particles)):
         likelihood = calculate_likelihood(navigator.particles[i][0], navigator.particles[i][1], navigator.particles[i][2], us_reading) + 20
         navigator.weights[i] = likelihood * navigator.weights[i]
-        
+
     sum = 0
     cumulative_weights = [0] * 100
     #print navigator.weights
@@ -171,7 +83,7 @@ def update_normalise_resample_weights():
         new_particles[i] = navigator.particles[j]
     navigator.particles = new_particles
     navigator.weights = [1/100.0] * 100
-        
+
 def navigate_with_mc(x, y):
     navigator.navigateToWaypoint(x,y)
     if not navigator.canvas is None:
@@ -180,8 +92,8 @@ def navigate_with_mc(x, y):
     update_normalise_resample_weights()
     if not navigator.canvas is None:
             navigator.canvas.drawParticles(navigator.particles)
-        
-        
+
+
 def getWayPoint():
     inputStr = raw_input("Enter waypoint as 'x,y' in meters:")
     if inputStr == 'q':
@@ -194,4 +106,42 @@ def getWayPoint():
         return getWayPoint()
     return (x,y)
 
-            
+def navigate_in_steps(x, y):
+    (cx, cy, ct) = navigator.estimatePosition()
+    dx = x - cx
+    dy = y - cy
+    stepX = dx/5.0
+    stepY = dy/5.0
+    for i in range(0,5):
+        cx+=stepX
+        cy+=stepY
+        navigate_with_mc(cx,cy)
+
+robot = Robot()
+canvas = Canvas()
+sigCon = SignatureContainer()
+placerec = PlaceRecognizer(robot, sigCon)
+
+#for i in range(6):
+#   placerec.learnLocation(i)
+#   raw_input("Enter your name: ")
+
+
+(locidx, rot) = placerec.recognizeLocation()
+
+print "current loc" + str(locidx) + " at " + str(rot)  
+
+
+waypoints = [(84,30), (180,30), (180,54), (138,54), (138,168)]
+
+currentLocation = waypoints[locidx]
+
+navigator = WaypointNavigator(robot, canvas, currentLocation[0], currentLocation[1], rot/180.0 * math.pi)
+
+nextWP = waypoints[locidx+1]
+
+navigate_in_steps(nextWP[0], nextWP[1])
+
+
+
+

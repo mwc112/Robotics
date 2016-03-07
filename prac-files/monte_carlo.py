@@ -1,16 +1,8 @@
-#!/usr/bin/env python
 from collections import namedtuple
 import random
 import math
-from Robot import Robot
-from WaypointNavigator import WaypointNavigator
-from Canvas import Canvas
-
-robot = Robot()
-canvas = Canvas()
-navigator = WaypointNavigator(robot, canvas, 84, 30)
-
-    
+import time
+import sys
 
 Point = namedtuple('Point', 'x y')
 
@@ -109,37 +101,13 @@ def getWayPoint():
     return (x,y)
 
 
-navigate_with_mc(104, 30)
-navigate_with_mc(124, 30)
-navigate_with_mc(144, 30)
-navigate_with_mc(164, 30)
-navigate_with_mc(180, 30)
-navigate_with_mc(180,50)
-navigate_with_mc(180, 54)
-navigate_with_mc(160, 54)
-navigate_with_mc(138, 54)
-navigate_with_mc(138, 74)
-navigate_with_mc(138, 94)
-navigate_with_mc(138, 114)
-navigate_with_mc(138, 134)
-navigate_with_mc(138, 154)
-navigate_with_mc(138, 168)
-navigate_with_mc(114, 168)
-navigate_with_mc(114, 148)
-navigate_with_mc(114, 128)
-navigate_with_mc(114, 108)
-navigate_with_mc(114, 84)
-navigate_with_mc(94, 84)
-navigate_with_mc(84, 64)
-navigate_with_mc(84, 44)
-navigate_with_mc(84, 30)
-navigate_with_mc(84, 30)
-navigate_with_mc(84, 30)
-navigate_with_mc(84, 30)
-navigate_with_mc(84, 30)
-navigate_with_mc(84, 30)
-
-
-#while True:
-#    (x,y) = getWayPoint()
-#    navigate_with_mc(x,y)
+def navigate_in_steps(x, y):
+    (cx, cy, ct) = navigator.estimatePosition()
+    dx = cx - x
+    dy = cy - y
+    stepX = dx/5.0
+    stepy = dy/5.0
+    for i in range(0,4):
+        cx+=stepX
+        cy+=stepY
+        navigate_with_mc(cx,cy)

@@ -1,4 +1,5 @@
 import math
+import time
 import brickpi
 from setupMotors import setupMotors
 
@@ -38,7 +39,8 @@ class Robot:
 	self.interface.increaseMotorAngleReference(3, ang)
         self.sensorPos += ang
         while not self.interface.motorAngleReferenceReached(3):
-             pass
+            pass
+
     def __del__(self):
         self.interface.terminate()
 

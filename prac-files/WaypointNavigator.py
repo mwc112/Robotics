@@ -1,10 +1,10 @@
 import random
 import math
 class WaypointNavigator:
-    def __init__(self, robot, canvas=None, startX=10, startY=10):
+    def __init__(self, robot, canvas=None, startX=10, startY=10, rot=0):
         self.robot = robot;
         self.numberOfParticles = 100
-        self.particles = [(startX, startY, 0)] * self.numberOfParticles
+        self.particles = [(startX, startY, rot)] * self.numberOfParticles
         self.canvas = canvas
         self.weights = [1.0/len(self.particles)] * len(self.particles)
         
@@ -52,9 +52,9 @@ class WaypointNavigator:
         if not self.canvas is None:
             self.canvas.drawLine((position[0], position[1], X, Y))
         dx = X - position[0]
-        print dx
+        print "dx " + str(dx)
         dy = Y - position[1]
-        print dy
+        print "dy" + str(dy)
         dist = math.sqrt(dx * dx + dy * dy)
         angle = math.atan2(dy, dx)
         dt = angle - position[2]
