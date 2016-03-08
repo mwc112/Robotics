@@ -55,7 +55,7 @@ def calculate_likelihood(x, y, theta, z):
 
 def update_normalise_resample_weights():
     #print navigator.particles
-    us_reading = placerec.getReading();
+    us_reading = robot.get_us_reading()[0]
     print us_reading
     if us_reading > 149.0 or us_reading < 7.0:
         return
@@ -123,14 +123,12 @@ canvas = None #Canvas()
 sigCon = SignatureContainer()
 placerec = PlaceRecognizer(robot, sigCon)
 
-#for i in range(6):
-#   placerec.learnLocation(i)
-#   raw_input("Enter your name: ")
-
+for i in range(6):
+   placerec.learnLocation(i)
+   raw_input("Enter your name: ")
 
 
 (locidx, rot) = placerec.recognizeLocation()
-#(locidx, rot) = (4, 0)
 
 print "current loc" + str(locidx) + " at " + str(rot)  
 
@@ -142,8 +140,9 @@ currentLocation = waypoints[locidx]
 navigator = WaypointNavigator(robot, canvas, currentLocation[0], currentLocation[1], rot/180.0 * math.pi)
 
 for i in range(1, 6):
-    nextWP = waypoints[(locidx +i)%5]
+    nextWP = waypoints[locidx+(i%5)]
     navigate_in_steps(nextWP[0], nextWP[1])
-    time.sleep(1)
+
+
 
 

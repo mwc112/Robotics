@@ -20,10 +20,10 @@ def setupMotors(interface, motors):
     rk_p = 0.6 * rk_u
     sk_p = 0.6 * sk_u
 
-    rparams.pidParameters.k_i = 1.55 * lk_p * lp_u
+    rparams.pidParameters.k_i = 1.65 * lk_p * lp_u
     rparams.pidParameters.K_d = lk_p * lp_u / 8.0
     rparams.pidParameters.k_p = lk_p
-    lparams.pidParameters.k_i = 1.6 * rk_p * rp_u
+    lparams.pidParameters.k_i = 1.7 * rk_p * rp_u
     lparams.pidParameters.K_d = rk_p * rp_u / 8.0
     lparams.pidParameters.k_p = rk_p
 
